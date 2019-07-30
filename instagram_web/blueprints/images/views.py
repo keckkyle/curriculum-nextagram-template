@@ -55,7 +55,7 @@ def index():
 
     followers = User.select().join(FanIdol, on=(FanIdol.idol_id == User.id)).where((FanIdol.fan_id == current_user.id) & (FanIdol.approved == True))
 
-    images = Image.select().where((Image.user.in_(followers)) | (Image.user_id == current_user.id))
+    images = Image.select().where((Image.user.in_(followers)) | (Image.user_id == current_user.id)).order_by(Image.created_at.desc())
 
     users = User.select()
     return render_template('images/index.html', images=images, users=users)
