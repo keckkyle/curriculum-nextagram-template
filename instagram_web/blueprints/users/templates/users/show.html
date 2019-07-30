@@ -48,10 +48,16 @@
 
 {% if user.private == True %}
     {% if current_user.id == user.id or approved %}
-    <div class="container">
+    <div class="container my-3">
         <div class='row'>
         {% for image in user.images %}
             <div class="col-12 col-sm-6 col-md-4 col-lg-2 p-1">
+                {% if current_user.id == user.id %}
+                <form action="{{ url_for('images.delete', id=image.id) }}" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <button class="btn delete-image"><i class="fas fa-trash-alt"></i></button>
+                </form>
+                {% endif %}
                 <a class="w-100 d-block square" style="background-image:url({{image.image_url}})" href="{{ url_for('images.show', id=image.id) }}">
                 </a>
             </div>
@@ -64,7 +70,7 @@
         <p class="text-center my-3">Waiting for user approval</p>
     {% endif %}
 {% else %}
-    <div class="container">
+    <div class="container my-3">
         <div class='row'>
         {% for image in user.images %}
             <div class="col-12 col-sm-6 col-md-4 col-lg-2 p-1">

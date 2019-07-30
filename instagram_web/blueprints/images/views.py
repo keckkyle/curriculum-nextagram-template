@@ -48,9 +48,7 @@ def show(id):
 @images_blueprint.route('/', methods=["GET"])
 def index():
 
-    images = Image.select().join(FanIdol, on=(Image.user_id == FanIdol.idol_id)).where(
-        (Image.user_id == current_user.id) |
-        ((FanIdol.fan_id == current_user.id) & (FanIdol.approved == True))
+    images = Image.select().join(FanIdol, on=(Image.user_id == FanIdol.idol_id)).where((Image.user_id == current_user.id) | ((FanIdol.fan_id == current_user.id) & (FanIdol.approved == True))
     ).group_by(Image.id).order_by(Image.created_at.desc())
     
     users = User.select()
@@ -62,9 +60,11 @@ def edit(id):
     pass
 
 
-@images_blueprint.route('/<id>', methods=['POST'])
-def update(id):
-    pass
+@images_blueprint.route('delete/<id>', methods=['POST'])
+def delete(id):
+    image = Image.get_by_id(id)
+    image.delete_instance()
+    return redirect(url_for('users.show', username=current_user.username))
 
 
 

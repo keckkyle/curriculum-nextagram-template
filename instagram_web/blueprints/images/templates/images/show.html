@@ -9,7 +9,7 @@
 <form class="my-3" action="{{ url_for('comments.create')}}" method="POST">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
     <input type="hidden" name="image" value={{image.id}} />
-    <div class="input-group col-12 col-md-8 mx-auto">
+    <div class="input-group col-12 col-md-10 mx-auto">
         <textarea style="resize: none;" class="form-control" name="text" maxlength="200" placeholder="Enter a new comment here."></textarea>
         <div class="input-group-append">
             <button class="btn btn-outline-secondary"
