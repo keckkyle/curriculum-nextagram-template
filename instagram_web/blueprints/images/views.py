@@ -35,7 +35,7 @@ def create():
         return redirect(url_for('users.show', username = current_user.username))
     
     else: 
-        redirect(url_for('image.new', id=id))
+        return redirect(url_for('image.new', id=id))
 
 
 @images_blueprint.route('/<id>', methods=["GET"])

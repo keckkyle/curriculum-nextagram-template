@@ -4,6 +4,8 @@ from flask import Flask, flash, redirect, url_for
 from models.base_model import db
 from flask_login import LoginManager, current_user, logout_user, login_required
 from models.user import User
+from flask_wtf.csrf import CSRFProtect
+from flask_jwt_extended import JWTManager
 
 web_dir = os.path.join(os.path.dirname(
     os.path.abspath(__file__)), 'instagram_web')
@@ -14,6 +16,11 @@ if os.getenv('FLASK_ENV') == 'production':
     app.config.from_object("config.ProductionConfig")
 else:
     app.config.from_object("config.DevelopmentConfig")
+
+csrf = CSRFProtect()
+csrf.init_app(app)
+
+jwt = JWTManager(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)

@@ -9,12 +9,11 @@ from instagram_web.blueprints.payments.views import payments_blueprint
 from instagram_web.blueprints.fan_idol.views import fan_idol_blueprint
 from flask_assets import Environment, Bundle
 from .util.assets import bundles
-from flask_wtf.csrf import CSRFProtect
+
 from flask_login import current_user
 from instagram_web.util.google_oauth import oauth
 
-csrf = CSRFProtect()
-csrf.init_app(app)
+
 oauth.init_app(app)
 
 assets = Environment(app)

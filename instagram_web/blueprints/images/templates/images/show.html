@@ -2,8 +2,8 @@
 {% block content %}
 <div class='container pb-5'>
     <img class="col-12 col-md-6 d-block mx-auto my-3" src='{{ image.image_url }}' />
-    {{donations}}
-    <a class="btn btn-outline-secondary w-25 d-block mx-auto" href="{{ url_for('payments.new', id=image.id) }}">Donate</a>
+
+    <!-- <a class="btn btn-outline-secondary w-25 d-block mx-auto" href="{{ url_for('payments.new', id=image.id) }}">Donate</a> -->
 
 {% if current_user.is_authenticated%}
 <form class="my-3" action="{{ url_for('comments.create')}}" method="POST">
