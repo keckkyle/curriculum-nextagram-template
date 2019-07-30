@@ -48,9 +48,15 @@ def show(id):
 @images_blueprint.route('/', methods=["GET"])
 def index():
 
-    images = Image.select().join(FanIdol, on=(Image.user_id == FanIdol.idol_id)).where((Image.user_id == current_user.id) | ((FanIdol.fan_id == current_user.id) & (FanIdol.approved == True))
-    ).group_by(Image.id).order_by(Image.created_at.desc())
-    
+#    images = Image.select().join(FanIdol, on=(Image.user_id == FanIdol.idol_id)).where(
+#         (Image.user_id == current_user.id) |
+#         ((FanIdol.fan_id == current_user.id) & (FanIdol.approved == True))
+#     ).group_by(Image.id).order_by(Image.created_at.desc())
+
+    followers = User.select().join(FanIdol, on=(FanIdol.idol_id == User.id)).where(FanIdol.fan_id == current_user.id)
+
+    images = Image.select().where((Image.user.in_(followers)) | (Image.user_id == current_user.id))
+
     users = User.select()
     return render_template('images/index.html', images=images, users=users)
 
