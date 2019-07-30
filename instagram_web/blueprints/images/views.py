@@ -53,7 +53,7 @@ def index():
 #         ((FanIdol.fan_id == current_user.id) & (FanIdol.approved == True))
 #     ).group_by(Image.id).order_by(Image.created_at.desc())
 
-    followers = User.select().join(FanIdol, on=(FanIdol.idol_id == User.id)).where(FanIdol.fan_id == current_user.id)
+    followers = User.select().join(FanIdol, on=(FanIdol.idol_id == User.id)).where((FanIdol.fan_id == current_user.id) & (FanIdol.approved == True))
 
     images = Image.select().where((Image.user.in_(followers)) | (Image.user_id == current_user.id))
 
