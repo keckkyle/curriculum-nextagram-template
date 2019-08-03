@@ -11,8 +11,9 @@ sessions_api_blueprint = Blueprint('sessions_api',
 
 @sessions_api_blueprint.route('/login', methods=['POST'])
 def create():
-    password = request.form.get('password')
-    username = request.form.get('username')
+    data = request.get_json()
+    password = data['password']
+    username = data['username']
 
     user = User.get_or_none(User.username == username)
 
