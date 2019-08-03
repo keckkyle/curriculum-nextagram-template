@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, make_response, request
+from flask import Blueprint, jsonify, make_response, request, json
 from models.user import User
 from flask_jwt_extended import create_access_token
 
@@ -28,11 +28,17 @@ def index():
 
 @users_api_blueprint.route('/', methods=['POST'])
 def create():
-    first_name = request.form.get('first_name')
-    last_name = request.form.get('last_name')
-    email = request.form.get('email')
-    username = request.form.get('username')
-    password = request.form.get('password')
+    data = request.get_json()
+    first_name = data['first_name']
+    last_name = data['last_name']
+    username = data['username']
+    email = data['email']
+    password = data['password']
+    # first_name = request.values.get('first_name')
+    # last_name = request.values.get('last_name')
+    # email = request.values.get('email')
+    # username = request.values.get('username')
+    # password = request.values.get('password')
 
     user = User(first_name = first_name, last_name = last_name, email = email, username = username, password = password)
 
