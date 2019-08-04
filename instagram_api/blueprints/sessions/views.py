@@ -32,7 +32,11 @@ def create():
     access_token = create_access_token(identity=user.id)
     response = {
         'message': 'Successfully logged in',
-        'user': user,
-        'auth_token': access_token
+        'auth_token': access_token,
+        'user': {
+                'id': user.id,
+                'profileImage':  user.profile_picture_url,
+                'username': user.username
+            }
     }
     return make_response(jsonify(response), 200)
