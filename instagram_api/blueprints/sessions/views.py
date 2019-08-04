@@ -32,6 +32,7 @@ def create():
     access_token = create_access_token(identity=user.id)
     response = {
         'message': 'Successfully logged in',
+        'username': username,
         'auth_token': access_token
     }
     return make_response(jsonify(response), 200)
