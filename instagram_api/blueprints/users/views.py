@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, make_response, request
 from models.user import User
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
 
 users_api_blueprint = Blueprint('users_api',
                              __name__,
@@ -34,11 +34,6 @@ def create():
     username = data['username']
     email = data['email']
     password = data['password']
-    # first_name = request.values.get('first_name')
-    # last_name = request.values.get('last_name')
-    # email = request.values.get('email')
-    # username = request.values.get('username')
-    # password = request.values.get('password')
 
     user = User(first_name = first_name, last_name = last_name, email = email, username = username, password = password)
 
@@ -77,6 +72,29 @@ def show(id):
 
     return make_response(jsonify(user_info), 200)
 
+@users_api_blueprint.route('/current_user', methods=['GET'])
+@jwt_required
+def current_user():
+    user_id = get_jwt_identity()
+
+    current_user = User.get_or_none(User.id == user_id)
+
+    if not current_user:
+        response = {
+            "message": "Authentication failed",
+            "status": "failed"
+        }
+        return make_response(jsonify(response), 401)
+
+    response = {
+        'user': {
+                'id': current_user.id,
+                'profileImage':  current_user.profile_picture_url,
+                'username': current_user.username
+            }
+        }
+    
+    return make_response(jsonify(response), 200)
 
 @users_api_blueprint.route('check_name')
 def check_name():
